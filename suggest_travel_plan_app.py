@@ -107,7 +107,6 @@ def suggest_travel_plan(traveling_days, destination, departure, next_destination
         logger.error(f"Error in summary_prompt_response: {str(e)}")
         raise
 
-
 # ------------------------------------------------------------
 # ★★★★★★  execution part  ★★★★★★
 # ------------------------------------------------------------
