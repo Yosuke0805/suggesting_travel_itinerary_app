@@ -77,6 +77,7 @@ def main():
 # ------------------------------------------------------------
 # ★★★★★★  functions ★★★★★★
 # ------------------------------------------------------------
+@st.cache_data
 def suggest_travel_plan(traveling_days, destination, departure, next_destination):
     try:
         chat = model.start_chat(enable_automatic_function_calling=True)
