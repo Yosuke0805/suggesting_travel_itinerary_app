@@ -51,6 +51,8 @@ def main():
         destination = st.text_input("Destination")
         departure = st.date_input("Departure date")
         next_destination = st.text_input("Next destination (optional)")
+        if not next_destination:
+            next_destination = "I don't know yet"
 
         if st.button("Generate Itinerary"):
             if not destination:
