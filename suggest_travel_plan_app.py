@@ -42,7 +42,7 @@ def main():
             GOOGLE_API_KEY = os.getenv("API_KEY")
             # for Streamlit Community Cloud : load API key using Streamlit secrets
             if not GOOGLE_API_KEY:
-                GOOGLE_API_KEY = st.secretes["api_keys"]["GOOGLE_API_KEY"]
+                GOOGLE_API_KEY = st.secrets["api_keys"]["GOOGLE_API_KEY"]
         else:
             # set Gemini API
             GOOGLE_API_KEY = st.sidebar.text_input("Input your Google AI Studio API", type="password")
