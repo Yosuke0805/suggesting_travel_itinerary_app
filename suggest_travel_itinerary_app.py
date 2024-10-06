@@ -37,20 +37,20 @@ def main():
         user_type = st.sidebar.radio("Who is using this?", ("Me", "Others"))
 
         if user_type == "Me":
-            # for local environment: Load environment variables from .env file
-            load_dotenv()
-            GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
-            # for Streamlit Community Cloud : load API key using Streamlit secrets
-            if not GEMINI_API_KEY:
-                # Login section
-                password = st.sidebar.text_input("Password", type="password")
-                stored_password = st.secrets["password"]["MY_PASSWORD"]
-                if password == stored_password:
-                    st.success("Logged in successfully!")
-                    GEMINI_API_KEY = st.secrets["api_keys"]["GEMINI_API_KEY"]
-                else:
-                    st.error("Invalid password")
-        else:
+            # Login section
+            password = st.sidebar.text_input("Password", type="password")
+            stored_password = st.secrets["password"]["MY_PASSWORD"]
+            if password == stored_password:
+                st.sidebar.success("Logged in successfully!")
+                # for local environment: Load environment variables from .env file
+                load_dotenv()
+                GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+                # for Streamlit Community Cloud : load API key using Streamlit secrets
+                if not GEMINI_API_KEY:
+                        GEMINI_API_KEY = st.secrets["api_keys"]["GEMINI_API_KEY"]
+            else:
+                st.sidebar.error("Invalid password")
+        elif == "Others":
             # set Gemini API
             GEMINI_API_KEY = st.sidebar.text_input("Input your Gemini API key", type="password")
 
