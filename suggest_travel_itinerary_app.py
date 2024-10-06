@@ -50,7 +50,7 @@ def main():
                         GEMINI_API_KEY = st.secrets["api_keys"]["GEMINI_API_KEY"]
             else:
                 st.sidebar.error("Invalid password")
-        elif == "Others":
+        elif user_type == "Others":
             # set Gemini API
             GEMINI_API_KEY = st.sidebar.text_input("Input your Gemini API key", type="password")
 
