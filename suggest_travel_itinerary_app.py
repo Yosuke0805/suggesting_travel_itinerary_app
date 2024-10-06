@@ -47,7 +47,7 @@ def main():
                     load_dotenv()
                     GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
                     # for Streamlit Community Cloud : load API key using Streamlit secrets
-                    if not GEMINI_API_KEY:
+                    if GEMINI_API_KEY is None:
                         GEMINI_API_KEY = st.secrets["api_keys"]["GEMINI_API_KEY"]
                     # configure model with api key
                     genai.configure(api_key=GEMINI_API_KEY)
