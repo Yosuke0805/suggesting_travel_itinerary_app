@@ -37,9 +37,9 @@ def main():
         user_type = st.sidebar.radio("Who is using this?", ("Me", "Others"))
 
         if user_type == "Me":
-            # for local environment: Load environment variables from .env file
-            load_dotenv()
-            GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+            # # for local environment: Load environment variables from .env file
+            # load_dotenv()
+            # GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
             # for Streamlit Community Cloud : load API key using Streamlit secrets
             if not GEMINI_API_KEY:
                 # Login section
