@@ -19,7 +19,6 @@ from google.api_core.exceptions import ResourceExhausted
 
 # Config
 model = genai.GenerativeModel(model_name="models/gemini-1.5-pro-latest")
-GEMINI_API_KEY = ""
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)
@@ -49,7 +48,7 @@ def main():
                     GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
                     # for Streamlit Community Cloud : load API key using Streamlit secrets
                     if not GEMINI_API_KEY:
-                            GEMINI_API_KEY = st.secrets["api_keys"]["GEMINI_API_KEY"]
+                        GEMINI_API_KEY = st.secrets["api_keys"]["GEMINI_API_KEY"]
                 else:
                     st.sidebar.error("Invalid password")
         elif user_type == "Others":
