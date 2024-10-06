@@ -37,9 +37,12 @@ def main():
         user_type = st.sidebar.radio("Who is using this?", ("Me", "Others"))
 
         if user_type == "Me":
-            # Load environment variables from .env file
+            # for local : Load environment variables from .env file
             load_dotenv()
             GOOGLE_API_KEY = os.getenv("API_KEY")
+            # for Streamlit Community Cloud : load API key using Streamlit secrets
+            if not GOOGLE_API_KEY:
+                GOOGLE_API_KEY = st.secretes["api_keys"]["GOOGLE_API_KEY"]
         else:
             # set Gemini API
             GOOGLE_API_KEY = st.sidebar.text_input("Input your Google AI Studio API", type="password")
