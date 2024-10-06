@@ -31,7 +31,7 @@ def main():
 
     try:
         # Streamlit app
-        st.title("🛫 Travel Itinerary Suggestion App")
+        st.title("🛫 Travel Plan Suggestion App")
 
         # Sidebar selection
         user_type = st.sidebar.radio("Who is using this?", ("Me", "Others"))
