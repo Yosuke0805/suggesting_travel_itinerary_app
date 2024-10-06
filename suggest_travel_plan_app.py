@@ -39,15 +39,16 @@ def main():
         if user_type == "Me":
             # for local : Load environment variables from .env file
             load_dotenv()
-            GOOGLE_API_KEY = os.getenv("API_KEY")
+            GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
             # for Streamlit Community Cloud : load API key using Streamlit secrets
-            if not GOOGLE_API_KEY:
-                GOOGLE_API_KEY = st.secrets["api_keys"]["GOOGLE_API_KEY"]
+            if not GEMINI_API_KEY:
+                GEMINI_API_KEY = st.secrets["api_keys"]["GEMINI_API_KEY"]
         else:
             # set Gemini API
-            GOOGLE_API_KEY = st.sidebar.text_input("Input your Google AI Studio API", type="password")
+            GEMINI_API_KEY = st.sidebar.text_input("Input your Gemini API key", type="password")
 
-        genai.configure(api_key=GOOGLE_API_KEY)
+        # configure model with api key
+        genai.configure(api_key=GEMINI_API_KEY)
 
         # Input fields
         traveling_days = st.number_input("Number of traveling days", min_value=1, max_value=99, value=3)
@@ -60,6 +61,8 @@ def main():
         if st.button("Generate Itinerary"):
             if not destination:
                 st.error("Please enter a destination.")
+            if not GEMINI_API_KEY:
+                st.error("You must enter your Gemini API key! You can get your key from https://aistudio.google.com/app/apikey")
             else:
                 try:
                     itinerary = suggest_travel_plan(traveling_days, destination, departure, next_destination)
@@ -73,7 +76,7 @@ def main():
                     st.error(f"Details: {str(e)}")
                     logger.error(f"Unexpected error: {str(e)}")
                     traceback.print_exc()
-    except Exception:
+    except Exception as e:
         st.error("An unexpected error occurred in the main function.", icon="🚨")
         st.error(f"Details: {str(e)}")
         logger.error(f"Unexpected error in main: {str(e)}")
@@ -90,6 +93,7 @@ def suggest_travel_plan(traveling_days, destination, departure, next_destination
         ### request
         You are a professional travel planner.
         Please suggest travel plan based on my preference and duration.
+        You must return output as markdown format.
 
         ### about me
         I am Japnese who loves travel abroad and have been to 31 countries so far. 
