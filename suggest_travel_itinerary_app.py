@@ -19,6 +19,7 @@ from google.api_core.exceptions import ResourceExhausted
 
 # Config
 model = genai.GenerativeModel(model_name="models/gemini-1.5-pro-latest")
+GEMINI_API_KEY = ""
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)
