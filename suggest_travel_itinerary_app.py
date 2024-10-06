@@ -42,7 +42,7 @@ def main():
             stored_password = st.secrets["password"]["MY_PASSWORD"]
             if password:
                 if password == stored_password:
-                    st.sidebar.success("Logged in successfully!")
+                    st.sidebar.success("Welcome Yosuke!")
                     # for local environment: Load environment variables from .env file
                     load_dotenv()
                     GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
