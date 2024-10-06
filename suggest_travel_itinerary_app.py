@@ -57,7 +57,11 @@ def main():
             GEMINI_API_KEY = st.sidebar.text_input("Input your Gemini API key", type="password")
 
         # configure model with api key
-        genai.configure(api_key=GEMINI_API_KEY)
+        if GEMINI_API_KEY:
+            # Use GEMINI_API_KEY in your application logic
+            genai.configure(api_key=GEMINI_API_KEY)
+        else:
+            st.error("API key is missing. Please provide a valid Gemini API key.")
 
         # Input fields
         traveling_days = st.number_input("Number of traveling days", min_value=1, max_value=99, value=3)
