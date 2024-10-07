@@ -87,7 +87,7 @@ def main():
         destination = st.text_input("Destination")
         departure = st.date_input("Departure date")
         next_destination = st.text_input("Next destination (optional)")
-        if not next_destination:
+        if next_destination is None:
             next_destination = "I don't know yet"
 
         if st.button("Generate Itinerary"):
@@ -97,7 +97,7 @@ def main():
                 st.error("You must enter your Gemini API key! You can get your key from https://aistudio.google.com/app/apikey")
             else:
                 try:
-                    itinerary = suggest_travel_plan(traveling_days, destination, departure, next_destination)
+                    itinerary = suggest_travel_plan(prompt, traveling_days, destination, departure, next_destination)
                     st.markdown(itinerary)
                 except ResourceExhausted as e:
                     st.error("Resource Exhausted: The request exceeded the available resources. Please try again later.", icon="🚨")
