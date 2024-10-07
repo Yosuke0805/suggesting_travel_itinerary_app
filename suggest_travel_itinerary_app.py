@@ -37,6 +37,21 @@ def main():
         user_type = st.sidebar.radio("Who is using this?", ("Me", "Others"))
 
         if user_type == "Me":
+            # Set prompt for myself
+            prompt = f"""
+            ### request
+            You are a professional travel planner.
+            Please suggest travel plan based on my preference and duration.
+            You must return output as markdown format.
+
+            ### about me
+            I am Japnese who loves travel abroad and have been to 33 countries so far. 
+            What I like to do during travel is these below.
+            - Exploring nature such as sea, lake and mountainds and feel the mother of earth.
+            - Walking around the town and see beautiful places.
+            - Meeting new people such as backpackers to change infomation about traveling tips and local people to get to know about local culture and history.
+            - Eating local coffee and beer as well as food.
+            """
             # Login section
             password = st.sidebar.text_input("Password", type="password")
             stored_password = st.secrets["password"]["MY_PASSWORD"]
@@ -54,6 +69,13 @@ def main():
                 else:
                     st.sidebar.error("Invalid password")
         elif user_type == "Others":
+            # Set prompt for others
+            prompt = f"""
+            ### request
+            You are a professional travel planner.
+            Please suggest travel plan based on user's preference and duration.
+            You must return output as markdown format.
+            """
             # set Gemini API
             GEMINI_API_KEY = st.sidebar.text_input("Input your Gemini API key", type="password")
             # configure model with api key
@@ -61,7 +83,7 @@ def main():
 
 
         # Input fields
-        traveling_days = st.number_input("Number of traveling days", min_value=1, max_value=99, value=3)
+        traveling_days = st.number_input("Duration", min_value=1, max_value=99, value=3)
         destination = st.text_input("Destination")
         departure = st.date_input("Departure date")
         next_destination = st.text_input("Next destination (optional)")
@@ -96,30 +118,18 @@ def main():
 # ★★★★★★  functions ★★★★★★
 # ------------------------------------------------------------
 @st.cache_data
-def suggest_travel_plan(traveling_days, destination, departure, next_destination):
+def suggest_travel_plan(prompt, traveling_days, destination, departure, next_destination):
     try:
-        chat = model.start_chat(enable_automatic_function_calling=True)
-        prompt = f"""
-        ### request
-        You are a professional travel planner.
-        Please suggest travel plan based on my preference and duration.
-        You must return output as markdown format.
-
-        ### about me
-        I am Japnese who loves travel abroad and have been to 31 countries so far. 
-        What I like to do during travel is these below.
-        - Exploring nature such as sea, lake and mountainds and feel the mother of earth.
-        - Walking around the town and see beautiful places.
-        - Meeting new people such as backpackers to change infomation about traveling tips and local people to get to know about local culture and history.
-        - Eating local coffee and beer as well as food.
-
-        ### prerequisite
-        - duration : {traveling_days}days
-        - destination : {destination}
-        - departure : {departure}
-        - next destination : {next_destination}
-
+        prompt_add = f"""
+            ### prerequisite
+            - duration : {traveling_days}days
+            - destination : {destination}
+            - departure : {departure}
+            - next destination : {next_destination}
         """
+        prompt += prompt_add
+        chat = model.start_chat(enable_automatic_function_calling=True)
+
         response = chat.send_message(prompt)
         response_text = response.text
         return response_text
@@ -127,13 +137,6 @@ def suggest_travel_plan(traveling_days, destination, departure, next_destination
         logger.error(f"Error in summary_prompt_response: {str(e)}")
         raise
 
-def login(username, password):
-    if username in USER_CREDENTIALS and USER_CREDENTIALS[username] == password:
-        st.session_state["logged_in"] = True
-        st.session_state["username"] = username
-        st.success(f"Welcome Yosuke Kawazoe! It's you!")
-    else:
-        st.error("Invalid username or password")
 # ------------------------------------------------------------
 # ★★★★★★  execution part  ★★★★★★
 # ------------------------------------------------------------
